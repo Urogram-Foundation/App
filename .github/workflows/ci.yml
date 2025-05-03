@@ -77,23 +77,6 @@ jobs:
           mkdir -p TMessagesProj/config/
           echo "${{ secrets.KEYSTORE }}" | base64 -d > TMessagesProj/config/release.keystore
           echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > TMessagesProj/google-services.json
-      - name: Decode google-services.json Secret
-        run: |
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > TMessagesProj/google-services.json
-
-      - name: Debug google-services.json content after decoding
-        run: |
-          echo "--- Start TMessagesProj/google-services.json content ---"
-          cat TMessagesProj/google-services.json
-          echo "--- End TMessagesProj/google-services.json content ---"
-
-      - name: Validate TMessagesProj/google-services.json with jq
-        run: |
-          sudo apt-get update && sudo apt-get install -y jq
-          echo "--- jq validation output ---"
-          jq -c . TMessagesProj/google-services.json
-          echo "--- End jq validation output ---"
-
           ./gradlew :TMessagesProj:assembleRelease :TMessagesProj:uploadCrashlyticsSymbolFileRelease
           echo "APK_FILE=$(find TMessagesProj/build/outputs/apk -name '*arm64*.apk')" >> $GITHUB_ENV
 

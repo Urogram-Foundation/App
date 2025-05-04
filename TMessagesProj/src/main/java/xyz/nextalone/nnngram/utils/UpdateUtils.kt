@@ -17,7 +17,7 @@
  * <https://www.gnu.org/licenses/>
  */
 
-package top.qwq2333.nullgram.utils
+package xyz.nextalone.nnngram.utils
 
 import android.content.Context
 import android.util.Base64
@@ -38,13 +38,13 @@ import org.telegram.tgnet.TLObject
 import org.telegram.tgnet.TLRPC
 import org.telegram.tgnet.TLRPC.Chat
 import org.telegram.ui.ActionBar.AlertDialog
-import top.qwq2333.nullgram.cacheUsersAndChats
-import top.qwq2333.nullgram.config.ConfigManager
+import xyz.nextalone.nnngram.cacheUsersAndChats
+import xyz.nextalone.nnngram.config.ConfigManager
 import java.util.Arrays
 
 object UpdateUtils {
 
-    private const val channelUsername = "NullgramClient"
+    private const val channelUsername = "Nnngram"
 
     private val originalChannelUsername = String(Base64.decode("TnVsbGdyYW1DbGllbnQK", Base64.DEFAULT))
 
@@ -150,22 +150,18 @@ object UpdateUtils {
     }
 
     private const val maxReadCount = 50
-    private const val stableMetadataChannelID: Long = 1514826137
-    private const val stableMetadataChannelName = "NullgramMetaData"
-    private const val previewMetadataChannelID: Long = 1524514483
-    private const val previewMetadataChannelName = "PreviewMetaData"
-    private const val stableChannelAPKsID: Long = 1645976613
-    private const val stableChannelAPKsName = "NullgramAPKs"
-    private const val previewChannelAPKsID: Long = 2692101396
-    private const val previewChannelAPKsName = "RealWisadel"
+//    private const val stableMetadataChannelID: Long = 1514826137
+//    private const val stableMetadataChannelName = "NullgramMetaData"
+    private const val previewMetadataChannelID: Long = 2135305446
+    private const val previewMetadataChannelName = "NnngramMetaData"
+//    private const val stableChannelAPKsID: Long = 1645976613
+//    private const val stableChannelAPKsName = "NullgramAPKs"
+    private const val previewChannelAPKsID: Long = 1848519901
+    private const val previewChannelAPKsName = "Nnngram"
 
     @JvmStatic
     fun retrieveUpdateMetadata(callback: (UpdateMetadata?, Boolean) -> Unit) {
-        val (metadataChannelID, metadataChannelName) = when (ConfigManager.getIntOrDefault(Defines.updateChannel, -1)) {
-            Defines.stableChannel -> stableMetadataChannelID to stableMetadataChannelName
-            Defines.ciChannel -> previewMetadataChannelID to previewMetadataChannelName
-            else -> if (BuildConfig.VERSION_NAME.contains("preview")) previewMetadataChannelID to previewMetadataChannelName else stableMetadataChannelID to stableMetadataChannelName
-        }
+        val (metadataChannelID, metadataChannelName) = previewMetadataChannelID to  previewMetadataChannelName
         val localVersionCode = BuildConfig.VERSION_CODE
         val accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount)
         TLRPC.TL_messages_getHistory().apply {
@@ -277,13 +273,8 @@ object UpdateUtils {
 
     @JvmStatic
     fun checkUpdate(callback: (TLRPC.TL_help_appUpdate?, Boolean) -> Unit) {
-        if (BuildConfig.isPlay) return
         if (!UserConfig.getInstance(UserConfig.selectedAccount).isClientActivated) return
-        val (apksChannelID, apksChannelName) = when (ConfigManager.getIntOrDefault(Defines.updateChannel, -1)) {
-            Defines.stableChannel -> stableChannelAPKsID to stableChannelAPKsName
-            Defines.ciChannel -> previewChannelAPKsID to previewChannelAPKsName
-            else -> if (BuildConfig.VERSION_NAME.contains("preview")) previewChannelAPKsID to previewChannelAPKsName else stableChannelAPKsID to stableChannelAPKsName
-        }
+        val (apksChannelID, apksChannelName) = previewChannelAPKsID to previewChannelAPKsName
         val accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount)
         retrieveUpdateMetadata { metadata, error ->
             if (metadata == null) {
@@ -321,7 +312,6 @@ object UpdateUtils {
                             can_not_skip = metadata.canNotSkip
                             flags = flags or 2
                         }
-
                         if (metadata.updateLog != null) {
                             update.text = metadata.updateLog
                             update.entities = metadata.updateLogEntities

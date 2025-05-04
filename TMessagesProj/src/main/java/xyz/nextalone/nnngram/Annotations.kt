@@ -17,7 +17,7 @@
  * <https://www.gnu.org/licenses/>
  */
 
-package xyz.nextalone.nnngram
+package org.urogram.messenger
 
 /**
  * The field's Int getter and setter with this annotation will be generated in the `Config` class.

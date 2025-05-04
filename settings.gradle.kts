@@ -51,7 +51,7 @@ develocity {
     }
 }
 
-rootProject.name = "Nnngram"
+rootProject.name = "Urogram"
 include(
     ":TMessagesProj",
     ":libs:tcp2ws",

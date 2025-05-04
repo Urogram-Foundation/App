@@ -214,7 +214,7 @@ android {
         outputs.all {
             val abi = this.filters.find { it.filterType == FilterConfiguration.FilterType.ABI.name }?.identifier
             val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
-            val outputFileName = "Nnngram-${defaultConfig.versionName}-${abiName[abi]}.apk"
+            val outputFileName = "Urogramram-${defaultConfig.versionName}-${abiName[abi]}.apk"
             output?.outputFileName = outputFileName
         }
     }
